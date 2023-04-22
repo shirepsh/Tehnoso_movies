@@ -1,6 +1,29 @@
 {
     "movies": [
         {
+            "title": "The Godfather",
+            "description": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
+            "image": "https://upload.wikimedia.org/wikipedia/en/1/1c/Godfather_ver1.jpg",
+            "ratings": [
+                9,
+                9,
+                8,
+                10
+            ]
+        },
+        {
+            "title": "The Dark Knight",
+            "description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+            "image": "https://upload.wikimedia.org/wikipedia/en/8/8a/Dark_Knight.jpg",
+            "ratings": [
+                10,
+                9,
+                10,
+                8,
+                9
+            ]
+        },
+        {
             "title": "Pulp Fiction",
             "description": "The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
             "image": "https://upload.wikimedia.org/wikipedia/en/3/3b/Pulp_Fiction_%281994%29_poster.jpg",
@@ -9,11 +32,7 @@
                 7,
                 9,
                 9,
-                10,
-                2,
-                1,
-                3,
-                3
+                10
             ]
         },
         {
@@ -24,8 +43,7 @@
                 10,
                 9,
                 8,
-                9,
-                1
+                9
             ]
         },
         {
@@ -37,6 +55,18 @@
                 9,
                 10,
                 10
+            ]
+        },
+        {
+            "title": "Inception",
+            "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+            "image": "https://upload.wikimedia.org/wikipedia/en/7/7f/Inception_ver3.jpg",
+            "ratings": [
+                8,
+                9,
+                10,
+                9,
+                7
             ]
         },
         {

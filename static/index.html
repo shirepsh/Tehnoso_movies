@@ -105,8 +105,9 @@
           image: formData.get("image"),
         };
         fetch(`/movies/${movie.title}`)
-          .then((response) => {
-            if (response.status === 200) {
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.title) {
               // Update the movie
               return fetch(`/movies/${movie.title}`, {
                 method: "PUT",

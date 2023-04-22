@@ -22,7 +22,7 @@ https://github.com/shirepsh/Tehnoso_movies
 - Please make sure you have 'pip' installed on your OS. 
 If it is not installed, please refer to the link below and follow the steps: [Link to PyPa.io](https://pip.pypa.io/en/stable/cli/pip_install/)
 
-1. download the project from GitHub by the comment:
+1.if you use GitHub download the project from GitHub by the comment:
 ```bash
 git clone
 ```
