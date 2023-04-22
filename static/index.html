@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Movies List</title>
+  </head>
+  <body>
+    <h1 style=" text-align: center">Technoso Movies List</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Image</th>
+          <th>Average Rating</th>
+        </tr>
+      </thead>
+      <tbody id="movies-list"></tbody>
+    </table>
+    <form id="add-movie-form">
+      <h1>Add or update Movie</h1>
+      <h4>if you want to update movie, write the name of the movie at "title" and his new details. <br/> 
+      he will update when you press the butten</h4>
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required />
+      <br />
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required></textarea>
+      <br />
+      <label for="image">Image URL:</label>
+      <input type="text" id="image" name="image" required />
+      <br />
+      <button type="submit">Add or update Movie</button>
+    </form>
+
+    <script>
+      const moviesList = document.getElementById("movies-list");
+
+      // Function to render movies list
+      function renderMoviesList(movies) {
+        moviesList.innerHTML = "";
+        movies.forEach((movie) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${movie.title}</td>
+            <td>${movie.description}</td>
+            <td><img src="${movie.image}" alt="${movie.title}" /></td>
+            <td>${movie.average_rating}</td>
+            <td>
+              <input type="number" min="1" max="10" id="rating-${movie.title}" name="rating-${movie.title}" required />
+              <button class="rate-movie-btn" data-title="${movie.title}">Rate</button>
+            </td>
+            <td><button class="delete-movie-btn" data-title="${movie.title}">Delete</button></td>
+          `;
+          moviesList.appendChild(row);
+
+          // Add event listener for delete button
+          const deleteButton = row.querySelector(".delete-movie-btn");
+          deleteButton.addEventListener("click", () => {
+            const title = deleteButton.dataset.title;
+            fetch(`/movies/${title}`, { method: "DELETE" })
+              .then(() => {
+                // Reload movies list
+                fetchAndRenderMovies();
+              })
+              .catch((error) => console.error(error));
+          });
+
+          // Add event listener for rate button
+          const rateButton = row.querySelector(".rate-movie-btn");
+          rateButton.addEventListener("click", () => {
+            const title = rateButton.dataset.title;
+            const rating = parseInt(document.getElementById(`rating-${title}`).value);
+            fetch(`/movies/${title}/ratings?rating=${rating}`, {
+              method: "POST"
+            })
+            .then(() => {
+              // Reload movies list
+              fetchAndRenderMovies();
+            })
+            .catch((error) => console.error(error));
+          });
+        });
+      }
+
+      // Function to fetch movies list and render it
+      function fetchAndRenderMovies() {
+        fetch("/movies")
+          .then((response) => response.json())
+          .then((data) => renderMoviesList(data.movies))
+          .catch((error) => console.error(error));
+      }
+
+      // Load movies list on page load
+      fetchAndRenderMovies();
+
+      // Add event listener for add movie form submission
+      const addMovieForm = document.getElementById("add-movie-form");
+      addMovieForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(addMovieForm);
+        const movie = {
+          title: formData.get("title"),
+          description: formData.get("description"),
+          image: formData.get("image"),
+        };
+        fetch(`/movies/${movie.title}`)
+          .then((response) => {
+            if (response.status === 200) {
+              // Update the movie
+              return fetch(`/movies/${movie.title}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(movie),
+              });
+            } else {
+              // Add the movie
+              return fetch("/movies", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(movie),
+              });
+            }
+          })
+          .then((response) => response.json())
+          .then((newMovie) => {
+            // Reload movies list
+            fetchAndRenderMovies();
+            addMovieForm.reset();
+          })
+          .catch((error) => console.error(error));
+            });
+    </script>
+  </body>
+</html>
